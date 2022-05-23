@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom: 10px">
+            <a class="btn btn-primary btn-success" href="/user/add">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                Add User(Model Form)
+            </a> {% comment %}按钮类{% endcomment %}
+            <div style="float: right; width: 300px">
+                <form method="get">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search for..." value={{ context.search_data }}>
+                        <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
+                            </span>
+
+                    </div><!-- /input-group -->
+                </form>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-th-list"
+                      aria-hidden="true"></span> {% comment %}图标样式，直接从bootstrap获得{% endcomment %}
+                User List
+            </div>
+
+            <!-- Table -->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Password</th>
+                    <th>Age</th>
+                    <th>Salary</th>
+                    <th>Setup Time</th>
+                    <th>Depart</th>
+                    <th>Gender</th>
+                    <th>Option</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in context.queryset %}
+                    <tr>
+                        <th scope="row">{{ obj.id }}</th>
+                        <td>{{ obj.name }}</td>
+                        <td>{{ obj.pwd }}</td>
+                        <td>{{ obj.age }}</td>
+                        <td>{{ obj.salary }}</td>
+                        {#                        <td>{{ obj.create_time.strftime("%Y-%m-%d") }}</td>#}
+                        <td>{{ obj.create_time|date:"Y-m-d" }}</td>
+                        <td>{{ obj.depart.title }}</td>
+                        <td>{{ obj.get_gender_display }}</td>
+                        <td>
+                            <a class="btn btn-primary btn-xs" href="/user/{{ obj.id }}/edit">Edit</a>
+                            <a class="btn btn-danger btn-xs" href="/user/{{ obj.id }}/delete">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <ul class="pagination">
+            {{ context.page_string }}
+        </ul>
+    </div>
+{% endblock %}
